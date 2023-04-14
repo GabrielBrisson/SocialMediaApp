@@ -8,14 +8,15 @@ The project has the following features:
 <li>Posting messages</li>
 <li>Following other users</li>
 <li>Viewing messages from followed users</li>
-<br>
 <h2>Technologies Used</h2>
 <li>Kotlin</li>
 <li>Jetpack Compose</li>
 <li>Coil</li>
- <li>Room</li>
+<li>Room</li>
+<h2>Installation</h2>
+Clone the repository: https://github.com/GabrielBrisson/SocialMediaApp
 <br>
-<h2> Contributing </h2>
+<h2>Contributing</h2>
 If you want to contribute to this project, feel free to open a pull request. All help is welcome!
 <br>
 <h2>License</h2>
