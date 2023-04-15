@@ -1,8 +1,7 @@
 package com.curral.social_media.presentation.feed
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -12,9 +11,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,24 +42,26 @@ internal fun FeedScreen(
 ) {
     Scaffold(
         topBar = {
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(15.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Box(
+            CenterAlignedTopAppBar(title = {
+                Text(
+                    text = "Explore",
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }, actions = {
+                Icon(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
-                        .clickable { uiState.currentUser?.id?.let { onProfile(it) } },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(imageVector = Icons.Rounded.Person, contentDescription = null)
-                }
+                        .padding(end = 4.dp)
+                        .border(
+                            1.dp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            shape = CircleShape
+                        )
+                        .padding(6.dp),
+                    imageVector = Icons.Rounded.Person,
+                    contentDescription = ""
+                )
             }
+            )
         }
     ) { paddingValues ->
         LazyColumn(modifier = modifier.padding(paddingValues)) {
@@ -81,6 +81,10 @@ fun PreviewFeedScreen() {
             uiState = FeedUiState(loading = true),
             onProfile = { }
         )
-
+        MessageCard(
+            friendName = "Conrrado",
+            friendProfilePicture = null,
+            message = "Vou pegar o meu pendrive no carro pra esse desgraçado"
+        )
     }
 }
