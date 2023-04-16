@@ -12,6 +12,7 @@ The project has the following features:
 <li>Kotlin</li>
 <li>Jetpack Compose</li>
 <li>Coil</li>
+<li>Retrofit e OkHttp</li>
 <h2>Installation</h2>
 Clone the repository: https://github.com/GabrielBrisson/SocialMediaApp
 <br>
