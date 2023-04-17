@@ -4,8 +4,11 @@ import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -38,7 +41,7 @@ fun FeedScreen(
 internal fun FeedScreen(
     modifier: Modifier = Modifier,
     uiState: FeedUiState,
-    onProfile: (id: Int) -> Unit,
+    onProfile: (id: Int) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -62,11 +65,35 @@ internal fun FeedScreen(
                 )
             }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ }) {
+                Icon(Icons.Filled.Add, contentDescription = "Add Button")
+            }
         }
     ) { paddingValues ->
         LazyColumn(modifier = modifier.padding(paddingValues)) {
             if (uiState.loading) {
                 item { LinearProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+            }
+            uiState.friends?.let { friends ->
+                if (uiState.friends.isEmpty()) {
+                    item {
+                        Column {
+                            Text(text = "Está tudo muito calmo por aqui")
+                        }
+                    }
+                }
+                item {
+                    LazyRow(modifier = Modifier.padding(top = 40.dp)) {
+                        items(friends) { friend ->
+                            FriendProfile(
+                                friendName = friend.name,
+                                friendProfilePicture = friend.profilePicture
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -80,11 +107,6 @@ fun PreviewFeedScreen() {
         FeedScreen(
             uiState = FeedUiState(loading = true),
             onProfile = { }
-        )
-        MessageCard(
-            friendName = "Conrrado",
-            friendProfilePicture = null,
-            message = "Vou pegar o meu pendrive no carro pra esse desgraçado"
         )
     }
 }
