@@ -15,14 +15,17 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LoginTextField(
     modifier: Modifier = Modifier,
-    label: String
+    label: String,
+    value: String,
+    onValueChanged: (String) -> Unit
 ) {
+
     Column(modifier) {
         Text(text = label, color = Color.White)
         OutlinedTextField(
             modifier = Modifier.padding(top = 8.dp),
-            value = "",
-            onValueChange = {},
+            value = value,
+            onValueChange = onValueChanged,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White
@@ -36,6 +39,6 @@ fun LoginTextField(
 @Composable
 fun PreviewLoginTextField() {
     MaterialTheme {
-        LoginTextField(label = "Username")
+        LoginTextField(label = "Username", value = "", onValueChanged = { })
     }
 }

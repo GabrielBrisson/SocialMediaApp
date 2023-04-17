@@ -14,6 +14,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,16 +32,37 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.curral.social_media.R
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = hiltViewModel(),
+    onEnter: () -> Unit,
+) {
+    LoginScreen(
+        modifier = modifier,
+        onRegister = {
+            onEnter()
+            //todo: validar e salvar o usuário pelo viewmodel
+        }
+    )
+}
+
+@Composable
+internal fun LoginScreen(
+    modifier: Modifier = Modifier,
+    onRegister: (username: String) -> Unit,
+) {
     val loginGradient = listOf<Color>(
         MaterialTheme.colorScheme.primary,
         MaterialTheme.colorScheme.tertiary
     )
+    var usernameInput by remember { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -66,10 +91,17 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             placeholder = painterResource(id = R.drawable.profileplaceholder),
             contentDescription = ""
         )
-        LoginTextField(modifier = Modifier.padding(top = 26.dp), label = "Username")
+        LoginTextField(
+            modifier = Modifier.padding(top = 26.dp),
+            label = "Username",
+            value = usernameInput,
+            onValueChanged = { usernameInput = it }
+        )
         Button(
-            modifier = Modifier.width(310.dp).padding(12.dp),
-            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .width(310.dp)
+                .padding(12.dp),
+            onClick = { onRegister(usernameInput) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White)
         ) {
             Text(
@@ -93,6 +125,6 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 @Composable
 fun PreviewLoginScreen() {
     MaterialTheme {
-        LoginScreen()
+        LoginScreen(onEnter = { })
     }
 }

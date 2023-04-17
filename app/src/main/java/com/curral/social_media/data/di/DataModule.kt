@@ -1,12 +1,16 @@
 package com.curral.social_media.data.di
 
+import android.content.Context
 import com.curral.social_media.data.api.repository.UserRepositoryImpl
 import com.curral.social_media.data.api.service.SocialMediaService
+import com.curral.social_media.data.local.repository.SharedPrefImpl
+import com.curral.social_media.domain.repository.SharedPref
 import com.curral.social_media.domain.repository.UserRepository
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -52,4 +56,9 @@ class DataModule {
     @Singleton
     fun providesUserRepository(socialMediaService: SocialMediaService): UserRepository =
         UserRepositoryImpl(socialMediaService)
+
+    @Provides
+    @Singleton
+    fun providesSharedPreferences(@ApplicationContext context: Context): SharedPref =
+        SharedPrefImpl(context)
 }
