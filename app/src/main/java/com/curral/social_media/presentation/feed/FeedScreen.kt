@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.curral.social_media.domain.model.Post
+import com.curral.social_media.domain.model.User
 import com.curral.social_media.ui.theme.SocialMediaTheme
 
 @Composable
@@ -95,6 +97,16 @@ internal fun FeedScreen(
                     }
                 }
             }
+            uiState.posts?.let { posts ->
+                items(posts) { post ->
+                    MessageCard(
+                        userName = post.author.name,
+                        userProfilePicture = post.author.profilePicture,
+                        content = post.content,
+                        createdAt = post.createdAt
+                    )
+                }
+            }
         }
     }
 
@@ -104,8 +116,47 @@ internal fun FeedScreen(
 @Composable
 fun PreviewFeedScreen() {
     SocialMediaTheme {
+        val friends = listOf(
+            User(id = 1, name = "Guigui Guelerme", profilePicture = ""),
+            User(id = 1, name = "Gabriel", profilePicture = ""),
+            User(id = 1, name = "Felipe", profilePicture = ""),
+            User(id = 1, name = "Davi", profilePicture = ""),
+            User(id = 1, name = "Lucas", profilePicture = "")
+        )
+        val posts = listOf(
+            Post(
+                author = friends[2],
+                content = "Eu tinha feito muito isso pq eu dei uma consertada, mas tinha um q tava inglês, outro q tava em portguês tava uma loucura!",
+                createdAt = "25 min ago"
+            ),
+            Post(
+                author = friends[1],
+                content = "lmao lol ela é tão doidinhaaaa, such a craze😝, ela botou um cone na cabeça hahahahaha",
+                createdAt = "2 hours ago"
+            ),
+            Post(
+                author = friends[0],
+                content = "Dar enter na última linha é uma boa prática!",
+                createdAt = "1 min ago"
+            ),
+            Post(
+                author = friends[2],
+                content = "Eu tinha feito muito isso pq eu dei uma consertada, mas tinha um q tava inglês, outro q tava em portguês tava uma loucura!",
+                createdAt = "25 min ago"
+            ),
+            Post(
+                author = friends[1],
+                content = "lmao lol ela é tão doidinhaaaa, such a craze, ela botou um cone na cabeça hahahahaha",
+                createdAt = "2 hours ago"
+            ),
+            Post(
+                author = friends[0],
+                content = "Dar enter na última linha é uma boa prática!",
+                createdAt = "1 min ago"
+            )
+        )
         FeedScreen(
-            uiState = FeedUiState(loading = true),
+            uiState = FeedUiState(loading = true, friends = friends, posts = posts),
             onProfile = { }
         )
     }

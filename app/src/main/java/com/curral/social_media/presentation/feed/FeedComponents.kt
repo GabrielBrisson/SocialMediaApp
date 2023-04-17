@@ -40,14 +40,15 @@ fun FriendProfile(
 ) {
     Column(
         modifier = modifier
-            .width(IntrinsicSize.Min),
+            .width(IntrinsicSize.Min)
+            .padding(horizontal = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
             modifier = Modifier
                 .size(70.dp)
                 .clip(CircleShape)
-                .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
+                .border(3.dp, MaterialTheme.colorScheme.primary, CircleShape),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(friendProfilePicture)
                 .crossfade(true)
@@ -75,13 +76,16 @@ fun MessageCard(
     modifier: Modifier = Modifier,
     userName: String,
     userProfilePicture: String?,
-    content: String
+    content: String,
+    createdAt: String
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(12.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .padding(12.dp)
+            .padding(vertical = 12.dp, horizontal = 6.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
@@ -107,12 +111,13 @@ fun MessageCard(
             )
             Text(
                 modifier = Modifier.padding(start = 6.dp).alpha(0.6f),
-                text = "24 min",
+                text = createdAt,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.titleSmall
             )
         }
         Text(
+            modifier = Modifier.padding(horizontal = 10.dp),
             text = content,
             maxLines = 14,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -136,6 +141,7 @@ fun PreviewMessageCard() {
             userName = "Guilherme Brisson",
             userProfilePicture = null,
             content = "Estuda pra Chessman mano, ele é o que mais reprova",
+            createdAt = "28 min"
         )
     }
 }

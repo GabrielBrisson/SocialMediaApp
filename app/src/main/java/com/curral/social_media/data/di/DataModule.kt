@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
-    private val baseUrl = ""
+    private val baseUrl = "apigateway.trabalhosocialmedia.live/"
 
     @Singleton
     @Provides
