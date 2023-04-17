@@ -1,11 +1,8 @@
 package com.curral.social_media.domain.repository
 
-import com.curral.social_media.domain.model.ResultOf
 import com.curral.social_media.domain.model.User
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-
-    suspend fun getUserById(id: Int): ResultOf<User>
-
-    suspend fun fetchUser(query: String): ResultOf<List<User>>
+    suspend fun getAllUsers():Flow<List<User>>
 }

@@ -100,8 +100,8 @@ internal fun FeedScreen(
             uiState.posts?.let { posts ->
                 items(posts) { post ->
                     MessageCard(
-                        userName = post.author.name,
-                        userProfilePicture = post.author.profilePicture,
+                        userName = post.author?.name ?: "",
+                        userProfilePicture = post.author?.profilePicture,
                         content = post.content,
                         createdAt = post.createdAt
                     )
@@ -117,11 +117,11 @@ internal fun FeedScreen(
 fun PreviewFeedScreen() {
     SocialMediaTheme {
         val friends = listOf(
-            User(id = 1, name = "Guigui Guelerme", profilePicture = ""),
-            User(id = 1, name = "Gabriel", profilePicture = ""),
-            User(id = 1, name = "Felipe", profilePicture = ""),
-            User(id = 1, name = "Davi", profilePicture = ""),
-            User(id = 1, name = "Lucas", profilePicture = "")
+            User(id = "1", name = "Guigui Guelerme", profilePicture = ""),
+            User(id = "2", name = "Gabriel", profilePicture = ""),
+            User(id = "3", name = "Felipe", profilePicture = ""),
+            User(id = "4", name = "Davi", profilePicture = ""),
+            User(id = "5", name = "Lucas", profilePicture = "")
         )
         val posts = listOf(
             Post(

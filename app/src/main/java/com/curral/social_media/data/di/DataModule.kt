@@ -3,6 +3,7 @@ package com.curral.social_media.data.di
 import com.curral.social_media.data.api.repository.UserRepositoryImpl
 import com.curral.social_media.data.api.service.SocialMediaService
 import com.curral.social_media.domain.repository.UserRepository
+import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
-    private val baseUrl = "apigateway.trabalhosocialmedia.live/"
+    private val baseUrl = "http://apigateway.trabalhosocialmedia.live/api/"
 
     @Singleton
     @Provides
@@ -37,6 +38,7 @@ class DataModule {
     fun providesApi(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
