@@ -59,4 +59,15 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         }
     }
 
+    override suspend fun updateUser(userId: String): Flow<User> = flow{
+        val response = socialMediaService.updateUser(userId)
+        response.suspendOnSuccess {
+            emit(data)
+        }.onFailure {
+            Log.d("error", "updateUser: ${message()}")
+        }
+    }
+
+
+
 }

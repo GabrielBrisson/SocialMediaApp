@@ -14,4 +14,8 @@ interface UserRepository {
     suspend fun registerUser(name:String): Flow<User>
 
     suspend fun createPost(userId: String): Flow<Post>
+
+    suspend fun updateUser(userId: String): Flow<User>
+
+    //suspend fun createFriendship(firstUserId: String, secondUserId: String):
 }
