@@ -3,6 +3,7 @@ package com.curral.social_media.data.api.repository
 import android.util.Log
 import com.curral.social_media.data.api.dto.toDomain
 import com.curral.social_media.data.api.service.SocialMediaService
+import com.curral.social_media.domain.model.Post
 import com.curral.social_media.domain.model.User
 import com.curral.social_media.domain.repository.UserRepository
 import com.skydoves.sandwich.message
@@ -40,12 +41,21 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         }
     }
 
-    override suspend fun registerUser(user: User) = flow {
-        val response = socialMediaService.registerUser(user)
+    override suspend fun registerUser(name: String) = flow {
+        val response = socialMediaService.registerUser(name)
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {
             Log.d("error", "registerUser: ${message()}")
+        }
+    }
+
+    override suspend fun createPost(userId: String): Flow<Post> = flow {
+        val response = socialMediaService.createPost(userId)
+        response.suspendOnSuccess {
+            emit(data)
+        }.onFailure {
+            Log.d("error", "createPost: ${message()}")
         }
     }
 
