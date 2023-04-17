@@ -5,4 +5,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     suspend fun getAllUsers():Flow<List<User>>
+
+    suspend fun getUserById(id:String): Flow<User>
+
+    suspend fun getFriends(id: String): Flow<List<User>>
+
+    suspend fun registerUser(user:User): Flow<User>
 }
