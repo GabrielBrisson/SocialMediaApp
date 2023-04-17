@@ -11,13 +11,41 @@ import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : UserRepository{
-    override suspend fun getAllUsers(): Flow<List<User>> = flow{
+class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : UserRepository {
+    override suspend fun getAllUsers(): Flow<List<User>> = flow {
         val response = socialMediaService.getUsers()
-        response.suspendOnSuccess{
+        response.suspendOnSuccess {
             emit(data.map { it.toDomain() })
         }.onFailure {
-            Log.d("erropai", "getAllUsers: ${message()}")
+            Log.d("error", "getAllUsers: ${message()}")
+        }
+    }
+
+    override suspend fun getUserById(id: String): Flow<User> = flow {
+        val response = socialMediaService.getUserById(id)
+        response.suspendOnSuccess {
+            emit(data.toDomain())
+        }.onFailure {
+            Log.d("error", "getUserById: ${message()}")
+
+        }
+    }
+
+    override suspend fun getFriends(id: String): Flow<List<User>> = flow {
+        val response = socialMediaService.getFriends(id)
+        response.suspendOnSuccess {
+            emit(data.map { it.toDomain() })
+        }.onFailure {
+            Log.d("error", "getFriends: ${message()}")
+        }
+    }
+
+    override suspend fun registerUser(user: User) = flow {
+        val response = socialMediaService.registerUser(user)
+        response.suspendOnSuccess {
+            emit(data)
+        }.onFailure {
+            Log.d("error", "registerUser: ${message()}")
         }
     }
 
