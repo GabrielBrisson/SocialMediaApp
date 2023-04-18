@@ -69,6 +69,17 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         }
     }
 
+    override suspend fun createFriendship(firstUserId: String, secondUserId: String) {
+        socialMediaService.createFriendship(firstUserId, secondUserId)
+    }
+
+    override suspend fun removeFriendship(firstUserId: String, removalUserId: String) {
+        socialMediaService.removeFriendship(firstUserId, removalUserId)
+    }
+
+    override suspend fun removeUser(userId: String) {
+         socialMediaService.removeUser(userId)
+    }
 
 
 }

@@ -17,5 +17,9 @@ interface UserRepository {
 
     suspend fun updateUser(userId: String): Flow<User>
 
-    //suspend fun createFriendship(firstUserId: String, secondUserId: String):
+    suspend fun createFriendship(firstUserId: String, secondUserId: String)
+
+    suspend fun removeFriendship(firstUserId: String, removalUserId: String)
+
+    suspend fun removeUser(userId: String)
 }
