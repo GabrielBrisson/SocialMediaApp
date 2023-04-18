@@ -19,7 +19,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data.map { it.toDomain() })
         }.onFailure {
-            Log.d("error", "getAllUsers: ${message()}")
+            Log.e(TAG, "getAllUsers failure: ${message()}")
         }
     }
 
@@ -28,17 +28,17 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data.toDomain())
         }.onFailure {
-            Log.d("error", "getUserById: ${message()}")
 
+            Log.e(TAG, "getUserById failure: ${message()}")
         }
     }
 
-    override suspend fun getFriends(id: String): Flow<List<User>> = flow {
+    override suspend fun getFriends(id: String): Flow<User> = flow {
         val response = socialMediaService.getFriends(id)
         response.suspendOnSuccess {
-            emit(data.map { it.toDomain() })
+            emit(data.toDomain())
         }.onFailure {
-            Log.d("error", "getFriends: ${message()}")
+            Log.e(TAG, "getFriends failure: ${message()}")
         }
     }
 
@@ -47,7 +47,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {
-            Log.d("error", "registerUser: ${message()}")
+            Log.e(TAG, "registerUser failure: ${message()}")
         }
     }
 
@@ -56,7 +56,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {
-            Log.d("error", "createPost: ${message()}")
+            Log.e(TAG, "createPost failure: ${message()}")
         }
     }
 
@@ -65,7 +65,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {
-            Log.d("error", "updateUser: ${message()}")
+            Log.e(TAG, "updateUser failure: ${message()}")
         }
     }
 
@@ -81,5 +81,8 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
          socialMediaService.removeUser(userId)
     }
 
+    companion object {
+        val TAG = UserRepositoryImpl::class.simpleName
+    }
 
 }

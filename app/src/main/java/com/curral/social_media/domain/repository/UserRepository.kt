@@ -9,7 +9,7 @@ interface UserRepository {
 
     suspend fun getUserById(id:String): Flow<User>
 
-    suspend fun getFriends(id: String): Flow<List<User>>
+    suspend fun getFriends(id: String): Flow<User>
 
     suspend fun registerUser(name:String): Flow<User>
 

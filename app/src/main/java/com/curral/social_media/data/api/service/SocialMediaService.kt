@@ -21,7 +21,7 @@ interface SocialMediaService {
     suspend fun getUserById(@Path("id") id: String): ApiResponse<UserResponse>
 
     @GET("usuarios/obterPorId/{id}")
-    suspend fun getFriends(@Path("id") id: String): ApiResponse<List<UserResponse>>
+    suspend fun getFriends(@Path("id") id: String): ApiResponse<UserResponse>
 
     @POST("usuarios/registrarUsuario")
     suspend fun registerUser(@Body name: UserRegisterBody): ApiResponse<User>
