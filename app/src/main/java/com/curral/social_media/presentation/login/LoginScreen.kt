@@ -46,13 +46,11 @@ fun LoginScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    if (uiState.success) goToFeed()
-
     LoginScreen(
         modifier = modifier,
         usernameInputError = uiState.usernameInputError,
         onRegister = { username ->
-            viewModel.validateUsername(username)
+            viewModel.validateUsername(username, onValid = goToFeed)
         }
     )
 }

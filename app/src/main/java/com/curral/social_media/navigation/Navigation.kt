@@ -1,7 +1,10 @@
 package com.curral.social_media.navigation
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -34,12 +37,16 @@ fun AppNavigation(
     navController: NavHostController = rememberNavController(),
     startDestination: String = NavigationRoutes.FEED_ROUTE
 ) {
+    val activity = (LocalContext.current as? Activity)
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
         composable(route = NavigationRoutes.FEED_ROUTE) {
+            BackHandler(true) {
+                activity?.finish()
+            }
             FeedScreen(
                 onProfile = { userId ->
                     val route = "${NavigationScreens.PROFILE_SCREEN}/$userId"

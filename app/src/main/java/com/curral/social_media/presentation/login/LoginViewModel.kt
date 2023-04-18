@@ -20,19 +20,17 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun validateUsername(username: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun validateUsername(username: String, onValid: () -> Unit) {
+        viewModelScope.launch(Dispatchers.Main) {
             username.ifEmpty {
                 _uiState.update {
-                    it.copy(
-                        usernameInputError = "Username can't be empty",
-                        success = false
-                    )
+                    it.copy(usernameInputError = "Username can't be empty")
                 }
             }
             userRepository.registerUser(username).collect { user ->
                 sharedPref.setUserId(user.id)
-                _uiState.update { it.copy(usernameInputError = null, success = true) }
+                _uiState.update { it.copy(usernameInputError = null) }
+                onValid()
             }
         }
     }
