@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.curral.social_media.domain.repository.SharedPref
 import com.curral.social_media.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,12 +25,13 @@ class FeedViewModel @Inject constructor(
     init {
         if (!_currentUserId.isNullOrBlank()) {
             getCurrentUser(_currentUserId)
+            getUserFeed(_currentUserId)
         }
     }
 
     private fun getCurrentUser(userId: String) {
         _uiState.update { it.copy(friendsLoading = true) }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.getUserById(userId).collect { user ->
                 _uiState.update {
                     it.copy(
@@ -41,6 +41,21 @@ class FeedViewModel @Inject constructor(
                     )
                 }
 
+            }
+        }
+    }
+
+    private fun getUserFeed(userId: String) {
+        _uiState.update { it.copy(feedLoading = true, feed = null, feedError = null) }
+        viewModelScope.launch {
+            repository.getUserFeed(userId,
+                onFailure = { errorMessage ->
+                    _uiState.update {
+                        it.copy(feedLoading = false, feed = null, feedError = errorMessage)
+                    }
+                }
+            ).collect { feed ->
+                _uiState.update { it.copy(feedLoading = false, feed = feed, feedError = null) }
             }
         }
     }

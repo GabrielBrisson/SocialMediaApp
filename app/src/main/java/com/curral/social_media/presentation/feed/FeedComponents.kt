@@ -75,7 +75,7 @@ fun FriendProfile(
 fun MessageCard(
     modifier: Modifier = Modifier,
     userName: String,
-    userProfilePicture: String?,
+    userProfilePicture: String? = null,
     content: String,
     createdAt: String
 ) {

@@ -97,11 +97,10 @@ internal fun FeedScreen(
                     }
                 }
             }
-            uiState.posts?.let { posts ->
+            uiState.feed?.let { posts ->
                 items(posts) { post ->
                     MessageCard(
-                        userName = post.author?.name ?: "",
-                        userProfilePicture = post.author?.profilePicture,
+                        userName = post.author ?: "",
                         content = post.content,
                         createdAt = post.createdAt
                     )
@@ -125,38 +124,38 @@ fun PreviewFeedScreen() {
         )
         val posts = listOf(
             Post(
-                author = friends[2],
+                author = friends[2].name,
                 content = "Eu tinha feito muito isso pq eu dei uma consertada, mas tinha um q tava inglês, outro q tava em portguês tava uma loucura!",
                 createdAt = "25 min ago"
             ),
             Post(
-                author = friends[1],
+                author = friends[1].name,
                 content = "lmao lol ela é tão doidinhaaaa, such a craze😝, ela botou um cone na cabeça hahahahaha",
                 createdAt = "2 hours ago"
             ),
             Post(
-                author = friends[0],
+                author = friends[0].name,
                 content = "Dar enter na última linha é uma boa prática!",
                 createdAt = "1 min ago"
             ),
             Post(
-                author = friends[2],
+                author = friends[2].name,
                 content = "Eu tinha feito muito isso pq eu dei uma consertada, mas tinha um q tava inglês, outro q tava em portguês tava uma loucura!",
                 createdAt = "25 min ago"
             ),
             Post(
-                author = friends[1],
+                author = friends[1].name,
                 content = "lmao lol ela é tão doidinhaaaa, such a craze, ela botou um cone na cabeça hahahahaha",
                 createdAt = "2 hours ago"
             ),
             Post(
-                author = friends[0],
+                author = friends[0].name,
                 content = "Dar enter na última linha é uma boa prática!",
                 createdAt = "1 min ago"
             )
         )
         FeedScreen(
-            uiState = FeedUiState(loading = true, friends = friends, posts = posts),
+            uiState = FeedUiState(loading = true, friends = friends, feed = posts),
             onProfile = { }
         )
     }

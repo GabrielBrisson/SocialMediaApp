@@ -9,6 +9,7 @@ import com.curral.social_media.domain.model.User
 import com.curral.social_media.domain.repository.UserRepository
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onFailure
+import com.skydoves.sandwich.suspendOnFailure
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,7 +20,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data.map { it.toDomain() })
         }.onFailure {
-            Log.e(TAG, "getAllUsers failure: ${message()}")
+            Log.e(TAG, "getAllUsers: ${message()}")
         }
     }
 
@@ -29,7 +30,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
             emit(data.toDomain())
         }.onFailure {
 
-            Log.e(TAG, "getUserById failure: ${message()}")
+            Log.e(TAG, "getUserById: ${message()}")
         }
     }
 
@@ -38,7 +39,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data.toDomain())
         }.onFailure {
-            Log.e(TAG, "getFriends failure: ${message()}")
+            Log.e(TAG, "getFriends: ${message()}")
         }
     }
 
@@ -47,7 +48,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {
-            Log.e(TAG, "registerUser failure: ${message()}")
+            Log.e(TAG, "registerUser: ${message()}")
         }
     }
 
@@ -56,16 +57,16 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {
-            Log.e(TAG, "createPost failure: ${message()}")
+            Log.e(TAG, "createPost: ${message()}")
         }
     }
 
-    override suspend fun updateUser(userId: String): Flow<User> = flow{
+    override suspend fun updateUser(userId: String): Flow<User> = flow {
         val response = socialMediaService.updateUser(userId)
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {
-            Log.e(TAG, "updateUser failure: ${message()}")
+            Log.e(TAG, "updateUser: ${message()}")
         }
     }
 
@@ -78,8 +79,23 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
     }
 
     override suspend fun removeUser(userId: String) {
-         socialMediaService.removeUser(userId)
+        socialMediaService.removeUser(userId)
     }
+
+    override suspend fun getUserFeed(
+        userId: String,
+        onFailure: (message: String) -> Unit
+    ): Flow<List<Post>> = flow {
+        socialMediaService.getUserFeed(userId)
+            .suspendOnSuccess {
+                emit(data.map { it.toDomain() })
+            }
+            .suspendOnFailure {
+                onFailure(message())
+                Log.e(TAG, "getUserFeed: ${message()}")
+            }
+    }
+
 
     companion object {
         val TAG = UserRepositoryImpl::class.simpleName

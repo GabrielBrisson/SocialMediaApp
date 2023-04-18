@@ -1,5 +1,6 @@
 package com.curral.social_media.data.api.service
 
+import com.curral.social_media.data.api.dto.MessageResponse
 import com.curral.social_media.data.api.dto.UserRegisterBody
 import com.curral.social_media.data.api.dto.UserResponse
 import com.curral.social_media.domain.model.Post
@@ -46,4 +47,7 @@ interface SocialMediaService {
 
     @DELETE("usuarios/removerUsuario/{userId}")
     suspend fun removeUser(@Path("userId") userId: String): ApiResponse<Nothing>
+
+    @GET("obterUserFeed/{userId}")
+    suspend fun getUserFeed(@Path("userId") userId: String): ApiResponse<List<MessageResponse>>
 }

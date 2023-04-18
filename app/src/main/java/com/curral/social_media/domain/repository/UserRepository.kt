@@ -22,4 +22,6 @@ interface UserRepository {
     suspend fun removeFriendship(firstUserId: String, removalUserId: String)
 
     suspend fun removeUser(userId: String)
+
+    suspend fun getUserFeed(userId: String, onFailure: (message: String) -> Unit): Flow<List<Post>>
 }
