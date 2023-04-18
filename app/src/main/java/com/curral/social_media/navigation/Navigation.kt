@@ -61,10 +61,9 @@ fun AppNavigation(
 
         composable(route = NavigationRoutes.LOGIN_ROUTE) {
             LoginScreen(
-                onEnter = { navController.navigate(NavigationRoutes.FEED_ROUTE) }
+                goToFeed = { navController.navigate(NavigationRoutes.FEED_ROUTE) }
             )
         }
-
     }
 
 }

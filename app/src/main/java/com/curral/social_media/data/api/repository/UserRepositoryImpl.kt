@@ -1,6 +1,7 @@
 package com.curral.social_media.data.api.repository
 
 import android.util.Log
+import com.curral.social_media.data.api.dto.UserRegisterBody
 import com.curral.social_media.data.api.dto.toDomain
 import com.curral.social_media.data.api.service.SocialMediaService
 import com.curral.social_media.domain.model.Post
@@ -42,7 +43,7 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
     }
 
     override suspend fun registerUser(name: String) = flow {
-        val response = socialMediaService.registerUser(name)
+        val response = socialMediaService.registerUser(UserRegisterBody(name))
         response.suspendOnSuccess {
             emit(data)
         }.onFailure {

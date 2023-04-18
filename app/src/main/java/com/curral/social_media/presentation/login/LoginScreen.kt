@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,13 +42,17 @@ import com.curral.social_media.R
 fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
-    onEnter: () -> Unit,
+    goToFeed: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    if (uiState.success) goToFeed()
+
     LoginScreen(
         modifier = modifier,
-        onRegister = {
-            onEnter()
-            //todo: validar e salvar o usuário pelo viewmodel
+        usernameInputError = uiState.usernameInputError,
+        onRegister = { username ->
+            viewModel.validateUsername(username)
         }
     )
 }
@@ -55,9 +60,10 @@ fun LoginScreen(
 @Composable
 internal fun LoginScreen(
     modifier: Modifier = Modifier,
+    usernameInputError: String? = null,
     onRegister: (username: String) -> Unit,
 ) {
-    val loginGradient = listOf<Color>(
+    val loginGradient = listOf(
         MaterialTheme.colorScheme.primary,
         MaterialTheme.colorScheme.tertiary
     )
@@ -95,7 +101,8 @@ internal fun LoginScreen(
             modifier = Modifier.padding(top = 26.dp),
             label = "Username",
             value = usernameInput,
-            onValueChanged = { usernameInput = it }
+            onValueChanged = { usernameInput = it },
+            usernameInputError = usernameInputError,
         )
         Button(
             modifier = Modifier
@@ -125,6 +132,6 @@ internal fun LoginScreen(
 @Composable
 fun PreviewLoginScreen() {
     MaterialTheme {
-        LoginScreen(onEnter = { })
+        LoginScreen(onRegister = { })
     }
 }

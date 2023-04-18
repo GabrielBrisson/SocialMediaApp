@@ -17,7 +17,8 @@ fun LoginTextField(
     modifier: Modifier = Modifier,
     label: String,
     value: String,
-    onValueChanged: (String) -> Unit
+    usernameInputError: String? = null,
+    onValueChanged: (String) -> Unit,
 ) {
 
     Column(modifier) {
@@ -30,7 +31,11 @@ fun LoginTextField(
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White
             ),
+            isError = !usernameInputError.isNullOrEmpty(),
         )
+        if (!usernameInputError.isNullOrEmpty()) {
+            Text(text = usernameInputError, color = MaterialTheme.colorScheme.error)
+        }
 
     }
 }
@@ -39,6 +44,11 @@ fun LoginTextField(
 @Composable
 fun PreviewLoginTextField() {
     MaterialTheme {
-        LoginTextField(label = "Username", value = "", onValueChanged = { })
+        LoginTextField(
+            label = "Username",
+            value = "",
+            onValueChanged = { },
+            usernameInputError = ""
+        )
     }
 }
