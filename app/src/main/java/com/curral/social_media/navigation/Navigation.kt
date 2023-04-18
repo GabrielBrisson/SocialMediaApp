@@ -58,7 +58,7 @@ fun AppNavigation(
         composable(
             route = NavigationRoutes.PROFILE_ROUTE,
             arguments = listOf(
-                navArgument(name = NavigationArgs.USER_ID) { type = NavType.IntType }
+                navArgument(name = NavigationArgs.USER_ID) { type = NavType.StringType }
             )
         ) {
             ProfileScreen(

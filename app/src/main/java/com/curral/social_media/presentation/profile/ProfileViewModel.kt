@@ -15,7 +15,7 @@ class ProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val userId: Int? = savedStateHandle[NavigationArgs.USER_ID]
+    private val userId: String? = savedStateHandle[NavigationArgs.USER_ID]
 
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()

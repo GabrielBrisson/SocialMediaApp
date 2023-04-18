@@ -2,6 +2,7 @@ package com.curral.social_media.presentation.feed
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -27,7 +28,7 @@ import com.curral.social_media.ui.theme.SocialMediaTheme
 fun FeedScreen(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel(),
-    onProfile: (id: Int) -> Unit,
+    onProfile: (id: String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -43,7 +44,7 @@ fun FeedScreen(
 internal fun FeedScreen(
     modifier: Modifier = Modifier,
     uiState: FeedUiState,
-    onProfile: (id: Int) -> Unit
+    onProfile: (id: String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -61,7 +62,8 @@ internal fun FeedScreen(
                             color = MaterialTheme.colorScheme.onSurface,
                             shape = CircleShape
                         )
-                        .padding(6.dp),
+                        .padding(6.dp)
+                        .clickable { uiState.currentUser?.id?.let { onProfile(it) } },
                     imageVector = Icons.Rounded.Person,
                     contentDescription = ""
                 )
