@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.curral.social_media.domain.model.Post
 import com.curral.social_media.domain.model.User
+import com.curral.social_media.ui.components.FriendProfile
+import com.curral.social_media.ui.components.MessageCard
 import com.curral.social_media.ui.theme.SocialMediaTheme
 
 @Composable
