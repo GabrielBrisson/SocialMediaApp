@@ -54,10 +54,16 @@ import com.curral.social_media.ui.theme.SocialMediaTheme
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = hiltViewModel(),
+    onAddFriend: () -> Unit,
     onBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    ProfileScreen(modifier = modifier, uiState = uiState, onBack = onBack)
+    ProfileScreen(
+        modifier = modifier,
+        uiState = uiState,
+        onAddFriend = onAddFriend,
+        onBack = onBack
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,6 +71,7 @@ fun ProfileScreen(
 internal fun ProfileScreen(
     modifier: Modifier = Modifier,
     uiState: ProfileUiState,
+    onAddFriend: () -> Unit,
     onBack: () -> Unit,
 ) {
     Scaffold(
@@ -112,7 +119,9 @@ internal fun ProfileScreen(
                             contentDescription = ""
                         )
                         Text(
-                            modifier = Modifier.width(200.dp).padding(top = 10.dp),
+                            modifier = Modifier
+                                .width(200.dp)
+                                .padding(top = 10.dp),
                             text = user.name,
                             style = MaterialTheme.typography.headlineSmall,
                             maxLines = 1,
@@ -135,7 +144,7 @@ internal fun ProfileScreen(
                                 modifier = modifier
                                     .width(IntrinsicSize.Min)
                                     .padding(start = 15.dp, end = 12.dp)
-                                    .clickable { /*TODO*/ },
+                                    .clickable { onAddFriend() },
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Box(
@@ -241,6 +250,10 @@ fun PreviewProfileScreen() {
                 )
             )
         )
-        ProfileScreen(uiState = ProfileUiState(user = user), onBack = { })
+        ProfileScreen(
+            uiState = ProfileUiState(user = user),
+            onAddFriend = { },
+            onBack = { }
+        )
     }
 }

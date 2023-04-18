@@ -14,11 +14,13 @@ import androidx.navigation.navArgument
 import com.curral.social_media.presentation.feed.FeedScreen
 import com.curral.social_media.presentation.login.LoginScreen
 import com.curral.social_media.presentation.profile.ProfileScreen
+import com.curral.social_media.presentation.users.UsersScreen
 
 object NavigationScreens {
     const val FEED_SCREEN = "feed"
     const val PROFILE_SCREEN = "profile"
     const val LOGIN_SCREEN = "login"
+    const val USERS_SCREEN = "users"
 }
 
 object NavigationArgs {
@@ -29,6 +31,7 @@ object NavigationRoutes {
     const val FEED_ROUTE = NavigationScreens.FEED_SCREEN
     const val PROFILE_ROUTE = "${NavigationScreens.PROFILE_SCREEN}/{${NavigationArgs.USER_ID}}"
     const val LOGIN_ROUTE = NavigationScreens.LOGIN_SCREEN
+    const val USERS_ROUTE = NavigationScreens.USERS_SCREEN
 }
 
 @Composable
@@ -62,6 +65,7 @@ fun AppNavigation(
             )
         ) {
             ProfileScreen(
+                onAddFriend = { navController.navigate(NavigationRoutes.USERS_ROUTE) },
                 onBack = navController::navigateUp,
             )
         }
@@ -69,6 +73,12 @@ fun AppNavigation(
         composable(route = NavigationRoutes.LOGIN_ROUTE) {
             LoginScreen(
                 goToFeed = { navController.navigate(NavigationRoutes.FEED_ROUTE) }
+            )
+        }
+
+        composable(route = NavigationRoutes.USERS_ROUTE) {
+            UsersScreen(
+                onBack = navController::navigateUp
             )
         }
     }
