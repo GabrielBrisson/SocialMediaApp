@@ -20,7 +20,7 @@ fun LoginTextField(
     usernameInputError: String? = null,
     onValueChanged: (String) -> Unit,
 ) {
-
+    val hasError = (!usernameInputError.isNullOrEmpty() && value.isEmpty())
     Column(modifier) {
         Text(text = label, color = Color.White)
         OutlinedTextField(
@@ -31,10 +31,13 @@ fun LoginTextField(
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White
             ),
-            isError = !usernameInputError.isNullOrEmpty(),
+            isError = (hasError),
         )
-        if (!usernameInputError.isNullOrEmpty()) {
-            Text(text = usernameInputError, color = MaterialTheme.colorScheme.error)
+        if (hasError) {
+            Text(
+                text = usernameInputError ?: "Unexpected error",
+                color = MaterialTheme.colorScheme.error
+            )
         }
 
     }

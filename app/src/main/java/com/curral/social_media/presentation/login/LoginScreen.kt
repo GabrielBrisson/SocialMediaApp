@@ -2,13 +2,14 @@ package com.curral.social_media.presentation.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -67,61 +68,74 @@ internal fun LoginScreen(
     )
     var usernameInput by remember { mutableStateOf("") }
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(Brush.verticalGradient(loginGradient)),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        contentAlignment = Alignment.Center
     )
     {
-        Text(
-            modifier = Modifier.padding(30.dp),
-            text = "LOG IN",
-            style = MaterialTheme.typography.headlineMedium,
-            color = Color.White,
-            letterSpacing = 8.sp
-        )
-        AsyncImage(
+        Column(
             modifier = Modifier
-                .size(200.dp)
-                .clip(CircleShape)
-                .border(4.dp, Color.White, CircleShape),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data("")
-                .crossfade(true)
-                .build(),
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(id = R.drawable.profileplaceholder),
-            contentDescription = ""
-        )
-        LoginTextField(
-            modifier = Modifier.padding(top = 26.dp),
-            label = "Username",
-            value = usernameInput,
-            onValueChanged = { usernameInput = it },
-            usernameInputError = usernameInputError,
-        )
-        Button(
-            modifier = Modifier
-                .width(310.dp)
-                .padding(12.dp),
-            onClick = { onRegister(usernameInput) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+                .fillMaxWidth()
+                .padding(horizontal = 40.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.Black.copy(alpha = 0.6f))
+                .padding(horizontal = 15.dp, vertical = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Enter",
-                modifier = Modifier
-                    .graphicsLayer(alpha = 0.99f)
-                    .drawWithCache {
-                        val brush =
-                            Brush.horizontalGradient(listOf(Color(0xFF983493), Color(0xFF815345)))
-                        onDrawWithContent {
-                            drawContent()
-                            drawRect(brush, blendMode = BlendMode.SrcAtop)
-                        }
-                    }
+                modifier = Modifier.padding(bottom = 30.dp),
+                text = "LOG IN",
+                style = MaterialTheme.typography.headlineMedium,
+                color = Color.White,
+                letterSpacing = 8.sp
             )
+            AsyncImage(
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(CircleShape)
+                    .border(4.dp, Color.White, CircleShape),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .crossfade(true)
+                    .build(),
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(id = R.drawable.profileplaceholder),
+                contentDescription = ""
+            )
+            LoginTextField(
+                modifier = Modifier.padding(top = 26.dp),
+                label = "Username",
+                value = usernameInput,
+                onValueChanged = { usernameInput = it },
+                usernameInputError = usernameInputError,
+            )
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                onClick = { onRegister(usernameInput) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+            ) {
+                Text(
+                    text = "Enter",
+                    modifier = Modifier
+                        .graphicsLayer(alpha = 0.99f)
+                        .drawWithCache {
+                            val brush =
+                                Brush.horizontalGradient(
+                                    listOf(
+                                        Color(0xFF983493),
+                                        Color(0xFF815345)
+                                    )
+                                )
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(brush, blendMode = BlendMode.SrcAtop)
+                            }
+                        }
+                )
+            }
         }
     }
 }

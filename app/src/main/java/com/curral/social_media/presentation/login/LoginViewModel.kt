@@ -26,6 +26,7 @@ class LoginViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(usernameInputError = "Username can't be empty")
                 }
+                return@launch
             }
             userRepository.registerUser(username).collect { user ->
                 sharedPref.setUserId(user.id)
