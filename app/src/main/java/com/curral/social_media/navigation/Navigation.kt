@@ -51,6 +51,7 @@ fun AppNavigation(
                 activity?.finish()
             }
             FeedScreen(
+                onAddFriend = { navController.navigate(NavigationRoutes.USERS_ROUTE) },
                 onProfile = { userId ->
                     val route = "${NavigationScreens.PROFILE_SCREEN}/$userId"
                     navController.navigate(route)

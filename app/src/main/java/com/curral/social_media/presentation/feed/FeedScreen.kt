@@ -15,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +31,7 @@ import com.curral.social_media.ui.theme.SocialMediaTheme
 fun FeedScreen(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel(),
+    onAddFriend: () -> Unit,
     onProfile: (id: String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -37,6 +39,7 @@ fun FeedScreen(
     FeedScreen(
         modifier = modifier,
         uiState = uiState,
+        onAddFriend = onAddFriend,
         onProfile = onProfile
     )
 }
@@ -46,6 +49,7 @@ fun FeedScreen(
 internal fun FeedScreen(
     modifier: Modifier = Modifier,
     uiState: FeedUiState,
+    onAddFriend: () -> Unit,
     onProfile: (id: String) -> Unit
 ) {
     Scaffold(
@@ -78,18 +82,28 @@ internal fun FeedScreen(
             }
         }
     ) { paddingValues ->
+        if (uiState.friends?.isEmpty() == true) {
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(paddingValues),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Está tudo muito calmo por aqui",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        TextButton(onClick = onAddFriend) {
+                            Text(text = "Adicionar um amigo")
+                        }
+                    }
+                }
+        }
         LazyColumn(modifier = modifier.padding(paddingValues)) {
             if (uiState.loading) {
                 item { LinearProgressIndicator(modifier = Modifier.fillMaxWidth()) }
             }
             uiState.friends?.let { friends ->
-                if (uiState.friends.isEmpty()) {
-                    item {
-                        Column {
-                            Text(text = "Está tudo muito calmo por aqui")
-                        }
-                    }
-                }
+
                 item {
                     LazyRow(modifier = Modifier.padding(top = 40.dp)) {
                         items(friends) { friend ->
@@ -160,6 +174,7 @@ fun PreviewFeedScreen() {
         )
         FeedScreen(
             uiState = FeedUiState(loading = true, friends = friends, feed = posts),
+            onAddFriend = { },
             onProfile = { }
         )
     }
