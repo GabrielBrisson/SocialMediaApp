@@ -3,7 +3,6 @@ package com.curral.social_media.data.api.service
 import com.curral.social_media.data.api.dto.MessageResponse
 import com.curral.social_media.data.api.dto.UserRegisterBody
 import com.curral.social_media.data.api.dto.UserResponse
-import com.curral.social_media.domain.model.Post
 import com.curral.social_media.domain.model.User
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
@@ -32,7 +31,7 @@ interface SocialMediaService {
     suspend fun registerUser(@Body name: UserRegisterBody): ApiResponse<User>
 
     @POST("usuarios/criarMensagem/{id}")
-    suspend fun createPost(@Path("id") id: String): ApiResponse<Post>
+    suspend fun createPost(@Path("id") id: String, @Body body: String)
 
     @PUT("usuarios/atualizarUsuario/{id}")
     suspend fun updateUser(@Path("id") id: String): ApiResponse<User>

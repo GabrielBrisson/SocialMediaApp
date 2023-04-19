@@ -65,13 +65,8 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         }
     }
 
-    override suspend fun createPost(userId: String): Flow<Post> = flow {
-        val response = socialMediaService.createPost(userId)
-        response.suspendOnSuccess {
-            emit(data)
-        }.onFailure {
-            Log.e(TAG, "createPost: ${message()}")
-        }
+    override suspend fun createPost(userId: String, content: String) {
+        socialMediaService.createPost(userId, content)
     }
 
     override suspend fun updateUser(userId: String): Flow<User> = flow {
