@@ -31,6 +31,7 @@ fun FeedScreen(
     viewModel: FeedViewModel = hiltViewModel(),
     onAddFriend: () -> Unit,
     onProfile: (id: String) -> Unit,
+    onPost: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -38,7 +39,8 @@ fun FeedScreen(
         modifier = modifier,
         uiState = uiState,
         onAddFriend = onAddFriend,
-        onProfile = onProfile
+        onProfile = onProfile,
+        onPost = onPost
     )
 }
 
@@ -48,7 +50,8 @@ internal fun FeedScreen(
     modifier: Modifier = Modifier,
     uiState: FeedUiState,
     onAddFriend: () -> Unit,
-    onProfile: (id: String) -> Unit
+    onProfile: (id: String) -> Unit,
+    onPost: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -74,7 +77,7 @@ internal fun FeedScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = onPost) {
                 Icon(Icons.Filled.Add, contentDescription = "Add Button")
             }
         }
@@ -174,7 +177,8 @@ fun PreviewFeedScreen() {
         FeedScreen(
             uiState = FeedUiState(loading = true, friends = friends, feed = posts),
             onAddFriend = { },
-            onProfile = { }
+            onProfile = { },
+            onPost = { }
         )
     }
 }

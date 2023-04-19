@@ -40,13 +40,14 @@ fun PostScreen(
     viewModel: PostViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
-    PostScreen(modifier = modifier, onBack = onBack)
+    PostScreen(modifier = modifier, onPost = viewModel::post, onBack = onBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun PostScreen(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    onPost: (content: String) -> Unit,
     onBack: () -> Unit
 ) {
     var text by remember { mutableStateOf("") }
@@ -102,7 +103,7 @@ internal fun PostScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = { onPost(text); onBack() }) {
                     Text(
                         modifier = Modifier
                             .width(100.dp),
@@ -120,6 +121,6 @@ internal fun PostScreen(
 @Composable
 fun PreviewPostScreen() {
     SocialMediaTheme() {
-        PostScreen(onBack = {})
+        PostScreen(onBack = {}, onPost = {})
     }
 }

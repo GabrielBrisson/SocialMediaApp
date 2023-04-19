@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.curral.social_media.presentation.feed.FeedScreen
 import com.curral.social_media.presentation.login.LoginScreen
+import com.curral.social_media.presentation.post.PostScreen
 import com.curral.social_media.presentation.profile.ProfileScreen
 import com.curral.social_media.presentation.users.UsersScreen
 
@@ -21,6 +22,7 @@ object NavigationScreens {
     const val PROFILE_SCREEN = "profile"
     const val LOGIN_SCREEN = "login"
     const val USERS_SCREEN = "users"
+    const val POST_SCREEN = "post"
 }
 
 object NavigationArgs {
@@ -32,6 +34,7 @@ object NavigationRoutes {
     const val PROFILE_ROUTE = "${NavigationScreens.PROFILE_SCREEN}/{${NavigationArgs.USER_ID}}"
     const val LOGIN_ROUTE = NavigationScreens.LOGIN_SCREEN
     const val USERS_ROUTE = NavigationScreens.USERS_SCREEN
+    const val POST_ROUTE = NavigationScreens.POST_SCREEN
 }
 
 @Composable
@@ -55,7 +58,8 @@ fun AppNavigation(
                 onProfile = { userId ->
                     val route = "${NavigationScreens.PROFILE_SCREEN}/$userId"
                     navController.navigate(route)
-                }
+                },
+                onPost = { navController.navigate(NavigationRoutes.POST_ROUTE) }
             )
         }
 
@@ -81,6 +85,10 @@ fun AppNavigation(
             UsersScreen(
                 onBack = navController::navigateUp
             )
+        }
+
+        composable(route = NavigationRoutes.POST_ROUTE) {
+            PostScreen(onBack = { navController.navigateUp() })
         }
     }
 
