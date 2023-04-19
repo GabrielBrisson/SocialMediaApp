@@ -52,23 +52,25 @@ internal fun FeedScreen(
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = {
-                Text(
-                    text = "Explore",
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }, actions = {
-                ImageProfile(
-                    modifier = Modifier
-                        .size(28.dp),
-                    imageUrl = uiState.currentUser?.profilePicture,
-                    borderStroke = BorderStroke(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    onClick = { uiState.currentUser?.id?.let { onProfile(it) } }
-                )
-            }
+            CenterAlignedTopAppBar(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                title = {
+                    Text(
+                        text = "Explore",
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }, actions = {
+                    ImageProfile(
+                        modifier = Modifier
+                            .size(28.dp),
+                        imageUrl = uiState.currentUser?.profilePicture,
+                        borderStroke = BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                        onClick = { uiState.currentUser?.id?.let { onProfile(it) } }
+                    )
+                }
             )
         },
         floatingActionButton = {

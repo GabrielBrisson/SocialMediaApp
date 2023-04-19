@@ -51,6 +51,6 @@ interface SocialMediaService {
     @DELETE("usuarios/removerUsuario/{userId}")
     suspend fun removeUser(@Path("userId") userId: String): ApiResponse<Nothing>
 
-    @GET("obterUserFeed/{userId}")
+    @GET("usuarios/obterUserFeed/{userId}")
     suspend fun getUserFeed(@Path("userId") userId: String): ApiResponse<List<MessageResponse>>
 }

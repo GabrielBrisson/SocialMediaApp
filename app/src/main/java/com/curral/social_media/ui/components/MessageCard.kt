@@ -1,5 +1,6 @@
 package com.curral.social_media.ui.components
 
+import android.text.format.DateUtils
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -19,7 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import com.curral.social_media.ui.theme.SocialMediaTheme
-
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun MessageCard(
@@ -29,6 +31,7 @@ fun MessageCard(
     content: String,
     createdAt: String
 ) {
+    val relativeTimeSpan = getRelativeTimeSpan(createdAt)
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -53,8 +56,10 @@ fun MessageCard(
                 maxLines = 1
             )
             Text(
-                modifier = Modifier.padding(start = 6.dp).alpha(0.6f),
-                text = createdAt,
+                modifier = Modifier
+                    .padding(start = 6.dp)
+                    .alpha(0.6f),
+                text = relativeTimeSpan ?: "",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.titleSmall
             )
@@ -68,15 +73,26 @@ fun MessageCard(
     }
 }
 
+private fun getRelativeTimeSpan(dateString: String): String? {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS", Locale("pt", "br"))
+    val due =dateFormat.parse(dateString)?.time
+    val now = System.currentTimeMillis()
+    return if (due != null) {
+        DateUtils.getRelativeTimeSpanString(
+            due, now, 0L, DateUtils.FORMAT_ABBREV_ALL
+        ).toString()
+    } else null
+}
+
 @Preview(wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE)
 @Composable
 fun PreviewMessageCard() {
-    SocialMediaTheme() {
+    SocialMediaTheme {
         MessageCard(
             userName = "Guilherme Brisson",
             userProfilePicture = null,
             content = "Estuda pra Chessman mano, ele é o que mais reprova",
-            createdAt = "28 min"
+            createdAt = "2023-04-18T02:11:58.21"
         )
     }
 }
