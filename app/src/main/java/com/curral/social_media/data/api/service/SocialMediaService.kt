@@ -12,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface SocialMediaService {
 
@@ -20,6 +21,9 @@ interface SocialMediaService {
 
     @GET("usuarios/obterPorId/{id}")
     suspend fun getUserById(@Path("id") id: String): ApiResponse<UserResponse>
+
+    @GET("usuarios/obterUsuarioPorNome")
+    suspend fun getUserByName(@Query("name") name: String): ApiResponse<List<UserResponse>>
 
     @GET("usuarios/obterPorId/{id}")
     suspend fun getFriends(@Path("id") id: String): ApiResponse<UserResponse>

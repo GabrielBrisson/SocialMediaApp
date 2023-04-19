@@ -9,6 +9,8 @@ interface UserRepository {
 
     suspend fun getUserById(id:String): Flow<User>
 
+    suspend fun getUserByName(name: String, onFailure: (message: String) -> Unit): Flow<List<User>>
+
     suspend fun getFriends(id: String): Flow<User>
 
     suspend fun registerUser(name:String): Flow<User>

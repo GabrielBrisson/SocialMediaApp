@@ -34,6 +34,19 @@ class UserRepositoryImpl(private val socialMediaService: SocialMediaService) : U
         }
     }
 
+    override suspend fun getUserByName(
+        name: String,
+        onFailure: (message: String) -> Unit
+    ): Flow<List<User>> = flow {
+        socialMediaService.getUserByName(name)
+            .suspendOnSuccess {
+                emit(data.map { it.toDomain() })
+            }.suspendOnFailure {
+                onFailure(message())
+                Log.e(TAG, "getUserByName: ${message()}")
+            }
+    }
+
     override suspend fun getFriends(id: String): Flow<User> = flow {
         val response = socialMediaService.getFriends(id)
         response.suspendOnSuccess {
