@@ -32,21 +32,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.curral.social_media.R
 import com.curral.social_media.domain.model.Post
 import com.curral.social_media.domain.model.User
 import com.curral.social_media.ui.components.FriendProfile
+import com.curral.social_media.ui.components.ImageProfile
 import com.curral.social_media.ui.components.MessageCard
 import com.curral.social_media.ui.theme.SocialMediaTheme
 
@@ -105,18 +100,9 @@ internal fun ProfileScreen(
                             .padding(start = 15.dp, end = 15.dp, top = 20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        AsyncImage(
-                            modifier = Modifier
-                                .size(100.dp)
-                                .clip(CircleShape)
-                                .border(4.dp, Color.White, CircleShape),
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(user.profilePicture)
-                                .crossfade(true)
-                                .build(),
-                            contentScale = ContentScale.Crop,
-                            placeholder = painterResource(id = R.drawable.profileplaceholder),
-                            contentDescription = ""
+                        ImageProfile(
+                            modifier = Modifier.size(100.dp),
+                            imageUrl = user.profilePicture,
                         )
                         Text(
                             modifier = Modifier

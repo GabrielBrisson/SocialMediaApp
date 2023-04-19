@@ -1,16 +1,13 @@
 package com.curral.social_media.presentation.feed
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.curral.social_media.domain.model.Post
 import com.curral.social_media.domain.model.User
 import com.curral.social_media.ui.components.FriendProfile
+import com.curral.social_media.ui.components.ImageProfile
 import com.curral.social_media.ui.components.MessageCard
 import com.curral.social_media.ui.theme.SocialMediaTheme
 
@@ -60,18 +58,15 @@ internal fun FeedScreen(
                     fontWeight = FontWeight.SemiBold,
                 )
             }, actions = {
-                Icon(
+                ImageProfile(
                     modifier = Modifier
-                        .padding(end = 4.dp)
-                        .border(
-                            1.dp,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            shape = CircleShape
-                        )
-                        .padding(6.dp)
-                        .clickable { uiState.currentUser?.id?.let { onProfile(it) } },
-                    imageVector = Icons.Rounded.Person,
-                    contentDescription = ""
+                        .size(28.dp),
+                    imageUrl = uiState.currentUser?.profilePicture,
+                    borderStroke = BorderStroke(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    onClick = { uiState.currentUser?.id?.let { onProfile(it) } }
                 )
             }
             )
@@ -83,20 +78,22 @@ internal fun FeedScreen(
         }
     ) { paddingValues ->
         if (uiState.friends?.isEmpty() == true) {
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Está tudo muito calmo por aqui",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        TextButton(onClick = onAddFriend) {
-                            Text(text = "Adicionar um amigo")
-                        }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "Está tudo muito calmo por aqui",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    TextButton(onClick = onAddFriend) {
+                        Text(text = "Adicionar um amigo")
                     }
                 }
+            }
         }
         LazyColumn(modifier = modifier.padding(paddingValues)) {
             if (uiState.loading) {
